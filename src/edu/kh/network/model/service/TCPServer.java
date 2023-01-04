@@ -105,52 +105,56 @@ public class TCPServer {
 
 	public void jsServer() {
 		
-		int port = 8501;
+		int port = 8503;
 		
-		ServerSocket serverSocket = null;
-		Socket clientSocket = null;
 		
+		ServerSocket server = null;
+		Socket client = null;
 		InputStream is = null;
-		BufferedReader br = null;
 		OutputStream os = null;
+		BufferedReader br = null;
 		PrintWriter pw = null;
 		
+	
 		try {
-			serverSocket = new ServerSocket(port);
+			
+			server = new ServerSocket(port);
 			System.out.println("기다리는 중..");
-			clientSocket = serverSocket.accept();
+			client = server.accept();
+			// 받아오기
 			
-			String Ip = clientSocket.getInetAddress().getHostAddress();
+			String ip = client.getInetAddress().getHostAddress();
 			
-			System.out.println(Ip + "에서 접속함");
-			is = clientSocket.getInputStream();
-			os = clientSocket.getOutputStream();
-			
+			System.out.println(ip+"님이 접속하셨습니다.");
+	
+			// 보조 스트림 적용하기
+
+			is = client.getInputStream();
+			os = client.getOutputStream();
 			br = new BufferedReader(new InputStreamReader(is));
 			pw = new PrintWriter(os);
 			
-			pw.println("으아아 성공햤어");
+			pw.println("꾸아아 접속했다");
 			pw.flush();
 			
 			String message = br.readLine();
+			// 접속된 클라이언트로부터 받아오기
 			System.out.println(message);
+			
 			
 			
 		}catch(IOException e) {
 			e.printStackTrace();
-		}finally {
+		}finally{
 			try {
-				if(br!= null)br.close();
-				if(pw!= null)pw.close();
-				if(clientSocket != null) clientSocket.close();
-				if(serverSocket != null) serverSocket.close();
+				if(br!=null)br.close();
+				if(pw!=null)pw.close();
+				if(client!=null)client.close();
+				if(server!=null)server.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				
 			}
-			
 		}
-		
 	}
 }
